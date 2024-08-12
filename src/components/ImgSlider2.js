@@ -51,6 +51,10 @@ const defaultMovie = {"backgroundImg": "https://prod-ripcut-delivery.disney-plus
         };
         // Here, you can also dispatch an action or make an API call to save the state to a backend
 
+    // const slider_timer = () => {
+    //     setActiveMovie(prevState => carouselData[prevState[activeMovieid + 1])
+    // }
+
     useEffect(() => {
         if(!isFetched){
         db.collection("movies").get()
@@ -65,6 +69,7 @@ const defaultMovie = {"backgroundImg": "https://prod-ripcut-delivery.disney-plus
                 console.log(carouselData[0])
                 setIsFetched(true);
                 setActiveMovie(defaultMovie)
+                // setInterval(slider_timer, 3000);
             } else{
                 console.log("no such doc");
             }
@@ -161,16 +166,16 @@ const defaultMovie = {"backgroundImg": "https://prod-ripcut-delivery.disney-plus
 
 const Vignette = styled.div`
   position: absolute;
-  top: 0;
+  top: 66vh;
   left: 0;
   right: 0;
   width: 100vw;
-  height: 125vh;
+  height: 30vh;
   /* pointer-events: none; */
   /* box-shadow: 0 0 500px rgba(0,0,0,0.9) inset; */
-  background: linear-gradient(to bottom, transparent 30%, #040714 60%);
+  background: linear-gradient(to bottom, transparent 0%, #040714 40%);
   /* background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,1) 60%); */
-  z-index:4;
+  z-index:3;
   transform: transform 0.3s ease;
   transform: scaleX(1);
   /* background-color: blue; */
@@ -473,6 +478,7 @@ const WatchnowBtn = styled.button`
     img {
         width: 20px;
         height: 20px;
+        cursor: pointer;
     }
 
     span{

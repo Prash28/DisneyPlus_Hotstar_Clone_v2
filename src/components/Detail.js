@@ -37,6 +37,7 @@ const Detail = (props) => {
                 alt={detailData.title}
             />
         </Background>
+        <ContentContainer>
         <ImageTitle>
             <img
                 src={detailData.titleImg}
@@ -76,6 +77,7 @@ const Detail = (props) => {
             </WatchlistContainer>
         </Controls>
         </Content>
+        </ContentContainer>
     </Container>
 }
 
@@ -104,6 +106,10 @@ const Background = styled.div`
             width: initial;
         }
     }
+`;
+
+const ContentContainer = styled.div`
+    padding-left: 10vh;
 `;
 
 const ImageTitle = styled.div`

@@ -144,7 +144,7 @@ const Vignette = styled.div`
   height: 100%;
   pointer-events: none;
   /* box-shadow: 0 0 500px rgba(0,0,0,0.9) inset; */
-  background: linear-gradient(to left, transparent 40%, rgba(0,0,0,0.3) 60%);
+  background: linear-gradient(to right, rgba(0,0,0,0.6) 15%, transparent 70%);
   /* z-index:4; */
   transform: scaleX(1);
   /* transform: transform 0.3s ease; */
@@ -187,7 +187,7 @@ const Logo = styled.a`
     /* top: 20vh; */
     /* position: absolute; */
     padding: 0px;
-    /* margin-left: 20px; */
+    margin-left: 23px;
     width: 100px;
     /* margin-left: 10px; */
     max-height: 70px;
@@ -329,7 +329,7 @@ const NavMenu = styled.div`
         width: 70vw;
         transform: scaleX(1.5);
         transition: opacity 1s ease-in-out;
-        background: linear-gradient(to left, transparent 40%, rgba(0,0,0,0.9) 60%);
+        background: linear-gradient(to right, rgba(0,0,0,0.95) 20%, transparent 76%);
         opacity: 0.85;
         /* width: 30vw; */
         /* transform: translateX(1.5); */
