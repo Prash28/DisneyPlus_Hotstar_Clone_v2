@@ -270,7 +270,7 @@ const NavMenu = styled.div`
       
       &:hover{
       transform: scale(1.1);
-      transition-duration: 1000ms;
+      transition-duration: 300ms;
       opacity: 1;
 
       span{
