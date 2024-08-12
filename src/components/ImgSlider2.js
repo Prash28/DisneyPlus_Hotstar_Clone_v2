@@ -24,14 +24,32 @@ const ImgSlider2 = (props) => {
         autoplay: true,
     }
 
-    const {id} = useParams();
+    let miniCarouselsettings = {
+        dots: false,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 2,
+        slidesToScroll: 1,
+        autoplay: false,
+    }
+const defaultMovie = {"backgroundImg": "https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/49B92C046117E89BC9243A68EE277A3B30D551D4599F23C10BF0B8C1E90AEFB6/scale?width=1440&aspectRatio=1.78&format=jpeg",
+            "cardImg": "https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/87F1DCF36049558159913ADFD18A800DE1121771540033EC3A7651B8FE154CEB/scale?width=400&aspectRatio=1.78&format=jpeg",
+            "description": "When 11-year-old Riley moves to a new city, her Emotions team up to help her through the transition. Joy, Fear, Anger, Disgust and Sadness work together, but when Joy and Sadness get lost, they must journey through unfamiliar places to get back home.",
+            "subTitle": "2015 • 1h 35m • Coming of Age, Family, Animation",
+            "title": "Inside Out",
+            "titleImg": "https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/5C647DF3FFBFA343CFEA84AC715148F25F9E86F398B408010CC403E7654FB908/scale?width=1440&aspectRatio=1.78",
+            "type": "recommend"}
+    const [activeMovie, setActiveMovie] = useState(defaultMovie);
+    const [changeActive, setChangeActive] = useState(false);
+    // const {id} = useParams();
     const [carouselData, setcarouselData] = useState([]);
     const [addedToWatchlist, setAddedToWatchlist] = useState(false);
     const[isFetched, setIsFetched] = useState(false);
+
     const handleWatchlistToggle = () => {
-        setAddedToWatchlist(!addedToWatchlist);
+            setAddedToWatchlist(!addedToWatchlist);
+        };
         // Here, you can also dispatch an action or make an API call to save the state to a backend
-    };
 
     useEffect(() => {
         if(!isFetched){
@@ -44,8 +62,9 @@ const ImgSlider2 = (props) => {
                 }))
                 setcarouselData(moviesArray);
                 console.log("carousel data")
-                console.log(carouselData)
+                console.log(carouselData[0])
                 setIsFetched(true);
+                setActiveMovie(defaultMovie)
             } else{
                 console.log("no such doc");
             }
@@ -53,25 +72,43 @@ const ImgSlider2 = (props) => {
             console.log(err);
         });
     }
-    }, [carouselData, isFetched]);
+    
+    }, [carouselData, isFetched, activeMovie]);
 
+    const handleSliderClick = (id) => {
+        // if(!changeActive){
+        if(id===1){
+            setActiveMovie(carouselData[id])
+        } else{
+            setActiveMovie(carouselData[id])
+        }
+        
+        console.log(id)
+        const obj = carouselData[id]
+        console.log(obj)
+        console.log(carouselData)
+        // console.log(carouselData[id])
+        console.log(activeMovie)
+        setChangeActive(true);
+        // }
+    }
     return(
+        <>
             <Carousel {...settings}>
                 <Vignette className="vignette" />
-                {carouselData.map((movie, id) => (
-                    <Wrap key={id}>
+                    <Wrap>
                     <a>
-                        <img src={movie.backgroundImg} alt={movie.title} />
+                        <img src={activeMovie.backgroundImg} alt={activeMovie.title} />
                     </a>
                     <MovieOverlay>
                     <ImageTitle>
             <img
-                src={movie.titleImg}
-                alt={movie.title}
+                src={activeMovie.titleImg}
+                alt={activeMovie.title}
             />    
         </ImageTitle>
         {
-            movie.type === "new" ? (
+            activeMovie.type === "new" ? (
                 <span style={{color: "rgb(3, 179, 255)", fontFamily: "sans-serif", fontWeight: "600"}}>Newly Added</span>
             ) : (
                 <span></span>
@@ -79,10 +116,10 @@ const ImgSlider2 = (props) => {
         }
         <Content>
         <Subtitle>
-            <p>{movie.subTitle}</p>
+            <p>{activeMovie.subTitle}</p>
         </Subtitle>
         <Description>
-            <p>{movie.description}</p>
+            <p>{activeMovie.description}</p>
         </Description>
         <Controls>
             <WatchnowBtn>
@@ -101,13 +138,24 @@ const ImgSlider2 = (props) => {
             <Tooltip>{ addedToWatchlist ? "Added to Watchlist" : "Add to Watchlist" }</Tooltip>
             
             </WatchlistContainer>
+            
         </Controls>
         </Content>
         </MovieOverlay>
                 </Wrap>
-                ))}
             </Carousel>
-            
+            <MiniCarouselContainer>
+        <MiniCarousel {...miniCarouselsettings}>
+        {carouselData.map((movie, id) => (
+                    <MiniWrap key={id}>
+                    <a onClick={() => handleSliderClick(id)}>
+                        <img src={movie.backgroundImg} alt={movie.title} />
+                    </a>
+                    </MiniWrap>
+        ))}
+        </MiniCarousel>
+        </MiniCarouselContainer>
+        </>
     ) 
 }
 
@@ -120,9 +168,9 @@ const Vignette = styled.div`
   height: 125vh;
   /* pointer-events: none; */
   /* box-shadow: 0 0 500px rgba(0,0,0,0.9) inset; */
-  background: linear-gradient(to bottom, transparent 40%, #040714 60%);
+  background: linear-gradient(to bottom, transparent 30%, #040714 60%);
   /* background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,1) 60%); */
-  /* z-index:4; */
+  z-index:4;
   transform: transform 0.3s ease;
   transform: scaleX(1);
   /* background-color: blue; */
@@ -130,7 +178,7 @@ const Vignette = styled.div`
   
 `;
 
-const Carousel = styled(Slider)`
+const Carousel = styled.div`
     position: absolute;
     z-index: 0;
     margin-top: 0px;
@@ -151,11 +199,6 @@ const Carousel = styled(Slider)`
         height: 100%;
         width: 5vw;
         z-index: 1;
-
-        &:hover{
-            opacity: 1;
-            transition: opacity 0.5s ease 0s;
-        }
     }
 
     ul li button{
@@ -181,6 +224,77 @@ const Carousel = styled(Slider)`
     .slick-next{
         /* right: -75px; */
     }
+`;
+
+const MiniCarouselContainer = styled.div`
+    overflow: hidden;
+    position: absolute;
+    /* box-shadow: inset 0 0 100px #000; */
+    /* border: 1px solid red; */
+    top: 50vh;
+    left: 50vw;
+    margin-right: 20px;
+    padding:0px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 750px;
+    z-index: 5;
+`;
+
+const MiniCarousel = styled(Slider)`
+    /* background: linear-gradient(to right, #000 10%, transparent 80%, #000 9%); */
+    position: relative;
+    z-index: 4;
+    /* top: 50vh; */
+    /* left: 70vw; */
+    /* margin-right: 20px; */
+    padding:0px;
+    /* border: 1px solid blue; */
+    /* box-shadow: inset 0 0 100px #000; */
+    box-sizing: border-box;
+    height: 140px;
+    align-content: center;
+    min-width: 700px;
+    overflow-x: hidden;
+    overflow-y: visible;
+    
+    & > button{
+        opacity: 1;  //to make the carousel arrows invisible
+        height: 100%;
+        width: 5vw;
+        z-index: 1;
+
+        &:hover{
+            opacity: 1;
+            transition: opacity 0.5s ease 0s;
+        }
+    }
+    ul li button{
+        &:before{
+            top: 10px;
+            font-size: 10px;
+            color: rgb(150, 158, 171);
+        }
+    }
+
+    li.slick-active button:before{
+        color: white;
+    }
+
+    .slick-list{
+        overflow: initial;
+        width: 400px;
+    }
+
+    /* .slick-prev{
+        right: 40px;
+    }
+
+    .slick-next{
+        right: -30px;
+    } */
 `;
 
 const Wrap = styled.div`
@@ -209,6 +323,77 @@ const Wrap = styled.div`
         left: 0px;
         height: 100%;
         object-fit: cover;
+    }
+
+    &:hover{
+        padding: 0;
+        /* outline: 4px solid rgba(249, 249, 249, 0.8); */
+        /* transition-duration: 300ms; */
+    }
+`;
+
+const MiniWrap = styled.div`
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+    height: 100px;
+    display: flex;
+    flex-direction: row;
+    width: 400px;
+    /* overflow: hidden; */
+    left: 0px;
+    padding: 0px;
+    /* a{
+        height: 100px;
+        width: 200px;
+        padding: 2px;
+        transition: transform 0.3s ease-in-out;
+        
+        
+    }
+    img{
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease-in-out;
+
+        
+    } */
+    a{
+        /* border-radius: 4px;
+        box-shadow: rgb(0 0 0 / 69%) 0px 26px 30px -10px,
+                    rgb(0 0 0 / 73%) 0px 16px 10px -10px;
+        cursor: pointer;
+        display: block;
+        position: relative;
+        /* border: 4px solid transparent; */
+        /* padding: 0px;
+        height: 100%; */
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        padding: 2px;
+        transition: transform 0.3s ease-in-out;
+        &:hover{
+            transform: scale(1.1);
+            
+        }
+    }
+    img{
+        /* width: 200px;
+        left: 0px;
+        height: 100%;
+        object-fit: cover; */
+
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease-in-out;
+
+        &:hover{
+            transform: scale(1.1);
+            border: 2px solid white;
+        }
     }
 
     &:hover{

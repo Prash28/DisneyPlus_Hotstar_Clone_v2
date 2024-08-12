@@ -268,7 +268,7 @@ const NavMenu = styled.div`
       
       &:hover{
       transform: scale(1.1);
-      transition-duration: 300ms;
+      transition-duration: 1000ms;
       opacity: 1;
 
       span{
@@ -316,13 +316,13 @@ const NavMenu = styled.div`
       position: relative;
       /* left: 10px; */
       transform: translateX(12px);
-      transition-delay: opacity 100ms ease, transform 0.3s ease;
-      transition-duration: 500ms;
+      transition-delay: opacity 100ms ease, transform 2s ease;
+      transition-duration: 800ms;
       
     }
     
       .vignette{
-        transition-duration: 200ms;
+        transition-duration: 1000ms;
         transition-delay: 500ms;
         width: 50vw;
         transition: all ease-in-out;
