@@ -142,15 +142,17 @@ const Vignette = styled.div`
   left: 0;
   width: 20vw;
   height: 100%;
-  /* pointer-events: none; */
+  pointer-events: none;
   /* box-shadow: 0 0 500px rgba(0,0,0,0.9) inset; */
   background: linear-gradient(to left, transparent 40%, rgba(0,0,0,0.3) 60%);
   /* z-index:4; */
-  transform: transform 0.3s ease;
   transform: scaleX(1);
+  /* transform: transform 0.3s ease; */
+  /* transition: transform 0.3s ease, width 0.3s ease; */
+  transition: opacity 0.5s ease;
   /* background-color: blue; */
   /* border: 1px solid red; */
-  
+  opacity: 0.5;
 `;
 
 const Nav = styled.aside`
@@ -324,19 +326,18 @@ const NavMenu = styled.div`
       .vignette{
         transition-duration: 1000ms;
         transition-delay: 500ms;
-        width: 50vw;
-        transition: all ease-in-out;
+        width: 70vw;
+        transform: scaleX(1.5);
+        transition: opacity 1s ease-in-out;
         background: linear-gradient(to left, transparent 40%, rgba(0,0,0,0.9) 60%);
+        opacity: 0.85;
         /* width: 30vw; */
         /* transform: translateX(1.5); */
-        left: 0px;
+        /* left: 0px; */
         /* background: linear-gradient(to right, rgba(0,0,0,0.9) 70%, transparent 30%); */
         /* z-index:3; */
         /* border: 1px solid red; */
       }
-    
-
-   
   }
 
     /* @media (max-width: 768px){
